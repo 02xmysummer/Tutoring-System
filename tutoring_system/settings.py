@@ -11,10 +11,10 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+CONFIGS_DIR = os.path.join(BASE_DIR,"configs")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -73,13 +73,25 @@ WSGI_APPLICATION = 'tutoring_system.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',  # 数据库引擎
+        'NAME': 'mysystem',  # 数据库名称
+        'HOST': '47.109.76.15',  # 数据库地址，本机 ip 地址 127.0.0.1
+        'PORT': 3306,  # 端口
+        'USER': 'root',  # 数据库用户名
+        'PASSWORD': 'mysql_t5JhRE',  # 数据库密码
+        'OPTIONS': {
+            'ssl': {
+                'ssl_ca': f'{CONFIGS_DIR}\\ca.pem',
+                'ssl_cert': f'{CONFIGS_DIR}\\client-cert.pem',
+                'ssl_key': f'{CONFIGS_DIR}\\client-key.pem',
+            },
+            'ssl_verify_cert': False,  # 不验证服务器的SSL证书
+        },
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
